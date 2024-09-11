@@ -41,7 +41,7 @@ Future<void> generatePdf({
               width: 215, // 幅を全体に設定
               decoration: pw.BoxDecoration(border: pw.Border.all()),
               child: pw.Row(
-                // mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
                 children: [
                   pw.Text(
                     '日付\nDate\n$date',
@@ -121,14 +121,13 @@ Future<void> generatePdf({
                   right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
                 )
                 ),
-
-              child: pw.Text(
-                'その他(Other)\n$other',
-                style: pw.TextStyle(
-                  font: jpFont,
-                  fontSize: 10
-                )
-                )
+              padding: const pw.EdgeInsets.all(5),
+              child: pw.Wrap(
+                alignment: pw.WrapAlignment.spaceEvenly,
+                children: <pw.Widget>[
+                  _buildCheckboxList(checkedMaps, jpFont)
+                ]
+              )
             ),
             pw.Container(
               alignment: pw.Alignment.centerLeft,
@@ -138,8 +137,13 @@ Future<void> generatePdf({
                   right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
                 )
                 ),
-              // padding: const pw.EdgeInsets.all(5),
-              child: _buildCheckboxList(checkedMaps, jpFont)
+              child: pw.Text(
+                'その他(Other)\n$other',
+                style: pw.TextStyle(
+                  font: jpFont,
+                  fontSize: 10
+                )
+                )
             ),
             pw.Container(
               alignment: pw.Alignment.centerLeft,
@@ -161,7 +165,7 @@ Future<void> generatePdf({
                 )
                 ),
               // padding: const pw.EdgeInsets.all(0),
-              child: _buildCheckboxList(checkedRowRaps, jpFont),
+              child: _buildCheckboxListRow(checkedRowRaps, jpFont),
             ),
             pw.Container(
               alignment: pw.Alignment.centerLeft,
@@ -198,9 +202,7 @@ pw.Widget _buildCheckboxList(List<Map<String, dynamic>> items, pw.Font fontSymbo
     width: 200,
     child: pw.Column(
       children: [
-        pw.Wrap(
-          spacing: 8.0,
-          runSpacing: 4.0,
+        pw.Column(
           children: items
               .map(
                 (item) => pw.Row(
@@ -220,5 +222,24 @@ pw.Widget _buildCheckboxList(List<Map<String, dynamic>> items, pw.Font fontSymbo
       ],
     ),
   );
-  
+}
+pw.Widget _buildCheckboxListRow(List<Map<String, dynamic>> items, pw.Font fontSymbols) {
+  return pw.Row(
+    children: items.map(
+      (item) => pw.Row(
+        mainAxisSize: pw.MainAxisSize.min, // 子要素の幅に合わせる
+        children: [
+          pw.Text(
+            item['checked'] ? '✔' : '□', // Unicode チェックボックス
+            style: pw.TextStyle(fontSize: 10, font: fontSymbols),
+          ),
+          pw.SizedBox(width: 5), // チェックボックスとラベルの間隔
+          pw.Text(
+            item['value'],
+            style: pw.TextStyle(fontSize: 10, font: fontSymbols),
+          ),
+        ],
+      ),
+    ).toList(),
+  );
 }
