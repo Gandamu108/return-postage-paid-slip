@@ -11,9 +11,14 @@ Future<void> generatePdf({
   required String entrant,
   required String yourName,
   required String other,
-  required List<Map<String, dynamic>> checkedMaps,
+  required List<Map<String, dynamic>> checkedMaps1,
+  required List<Map<String, dynamic>> checkedMaps2,
+  required List<Map<String, dynamic>> checkedMaps3,
+  required List<Map<String, dynamic>> checkedMaps4,
   required List<Map<String, dynamic>> checkedMapsf,
-  required List<Map<String, dynamic>> checkedRowRaps,
+  required List<Map<String, dynamic>> checkedRowRaps1,
+  required List<Map<String, dynamic>> checkedRowRaps2,
+  required List<Map<String, dynamic>> checkedRowRaps3,
   required List<Map<String, dynamic>> checkedMapsb,
 }) async {
   final pdf = pw.Document();
@@ -121,13 +126,8 @@ Future<void> generatePdf({
                   right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
                 )
                 ),
-              padding: const pw.EdgeInsets.all(5),
-              child: pw.Wrap(
-                alignment: pw.WrapAlignment.spaceEvenly,
-                children: <pw.Widget>[
-                  _buildCheckboxList(checkedMaps, jpFont)
-                ]
-              )
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedMaps1, jpFont)
             ),
             pw.Container(
               alignment: pw.Alignment.centerLeft,
@@ -135,6 +135,40 @@ Future<void> generatePdf({
                 border: pw.Border(
                   left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
                   right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
+                )
+                ),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedMaps2, jpFont)
+            ),
+            pw.Container(
+              alignment: pw.Alignment.centerLeft,
+              decoration: pw.BoxDecoration(
+                border: pw.Border(
+                  left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
+                )
+                ),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedMaps3, jpFont)
+            ),
+            pw.Container(
+              alignment: pw.Alignment.centerLeft,
+              decoration: pw.BoxDecoration(
+                border: pw.Border(
+                  left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
+                )
+                ),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedMaps4, jpFont)
+            ),
+            pw.Container(
+              alignment: pw.Alignment.centerLeft,
+              decoration: pw.BoxDecoration(
+                border: pw.Border(
+                  left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  bottom: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
                 )
                 ),
               child: pw.Text(
@@ -164,8 +198,30 @@ Future<void> generatePdf({
                   right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
                 )
                 ),
-              // padding: const pw.EdgeInsets.all(0),
-              child: _buildCheckboxListRow(checkedRowRaps, jpFont),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedRowRaps1, jpFont),
+            ),
+            pw.Container(
+              alignment: pw.Alignment.centerLeft,
+              decoration: pw.BoxDecoration(
+                border: pw.Border(
+                  left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
+                )
+                ),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedRowRaps2, jpFont),
+            ),
+            pw.Container(
+              alignment: pw.Alignment.centerLeft,
+              decoration: pw.BoxDecoration(
+                border: pw.Border(
+                  left: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0)),
+                  right: pw.BorderSide(color: PdfColorCmyk.fromRgb(0, 0, 0))
+                )
+                ),
+              padding: pw.EdgeInsets.only(left: 5),
+              child: _buildCheckboxListRow(checkedRowRaps3, jpFont),
             ),
             pw.Container(
               alignment: pw.Alignment.centerLeft,
@@ -177,12 +233,7 @@ Future<void> generatePdf({
                 )
                 ),
               padding: pw.EdgeInsets.only(top: 10.0,left: 0.0,right: 10.0,bottom: 10.0),
-              child: pw.Wrap(
-                children: <pw.Widget>[
-
-                  _buildCheckboxList(checkedMapsb, jpFont)
-                ]
-              ),
+              child: _buildCheckboxList(checkedMapsb, jpFont)
             ),
           ],
         );
@@ -210,7 +261,7 @@ pw.Widget _buildCheckboxList(List<Map<String, dynamic>> items, pw.Font fontSymbo
                   children: [
                     pw.Text(
                       item['checked'] ? '✔' : '□', // Unicode チェックボックス
-                      style: pw.TextStyle(fontSize: 8, font: fontSymbols),
+                      style: pw.TextStyle(fontSize: 10, font: fontSymbols),
                     ),
                     // pw.SizedBox(width: 5),
                     pw.Text(item['value'], style: pw.TextStyle(fontSize: 10, font: fontSymbols)),
@@ -227,13 +278,12 @@ pw.Widget _buildCheckboxListRow(List<Map<String, dynamic>> items, pw.Font fontSy
   return pw.Row(
     children: items.map(
       (item) => pw.Row(
-        mainAxisSize: pw.MainAxisSize.min, // 子要素の幅に合わせる
+        mainAxisSize: pw.MainAxisSize.min,
         children: [
           pw.Text(
             item['checked'] ? '✔' : '□', // Unicode チェックボックス
             style: pw.TextStyle(fontSize: 10, font: fontSymbols),
           ),
-          pw.SizedBox(width: 5), // チェックボックスとラベルの間隔
           pw.Text(
             item['value'],
             style: pw.TextStyle(fontSize: 10, font: fontSymbols),

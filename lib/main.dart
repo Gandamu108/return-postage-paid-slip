@@ -36,33 +36,44 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late String date; // lateキーワードを使って遅延初期化
    List<String> title = ['日 付\nDate', '施設名\nFacility Name', 'フロア名\nFloor name', '記入者\nentrant'];
-   final List<Map<String, dynamic>> _checkedMaps = [
-    {'value': '上衣\njacket', 'checked': false},
-    {'value': '下衣\nLower clothing', 'checked': false},
+   final List<Map<String, dynamic>> _checkedMaps1 = [
+    {'value': '上衣\njacket                   ', 'checked': false},
+    {'value': '下衣\nLower clothing                   ', 'checked': false},
+  ];
+  final List<Map<String, dynamic>> _checkedMaps2 = [
     {'value': '肌着上\nUnderwearTop', 'checked': false},
     {'value': '肌着下\nunderwear', 'checked': false},
-    {'value': 'くつ下\nsocks', 'checked': false},
+  ];
+  final List<Map<String, dynamic>> _checkedMaps3 = [
+    {'value': 'くつ下\nsocks                   ', 'checked': false},
     {'value': '小物\nAccessories', 'checked': false},
+  ];
+  final List<Map<String, dynamic>> _checkedMaps4 = [
     {'value': '寝具類\nBedding', 'checked': false},
   ];
    final List<Map<String, dynamic>> _checkedMapsf = [
-    {'value': '名前未記入 衣類に直接フルネームでご記入ください。\nName not written Please write your full name directly on the garment.', 'checked': false},
-    {'value': '名前が読み取れませんでした。再記入をお願いします\nName could not be read. Please retype it.', 'checked': false},
-    {'value': '以下のことが発生しています洗ってもよろしいでしょうか？\nThe following is happening', 'checked': false},
+    {'value': '名前未記入 衣類に直接フルネームで記入。\nName not written Full name\nwritten directly on clothing', 'checked': false},
+    {'value': '名前が読み取れませんでした。\nName could not be read. Please retype it.', 'checked': false},
+    {'value': '以下のことが発生しています\n洗ってもよろしいでしょうか？\nMay I wash the following?', 'checked': false},
   ];
-  final List<Map<String, dynamic>> _checkedRowRaps = [
-    {'value': '破れ\ntear', 'checked': false},
+  final List<Map<String, dynamic>> _checkedRowRaps1 = [
+    {'value': '破れ\ntear                   ', 'checked': false},
     {'value': 'ほつれ\nfrayed spot', 'checked': false},
-    {'value': '縮み\nshrinkage', 'checked': false},
-    {'value': '変色\ndiscoloration', 'checked': false},
+  ];
+  final List<Map<String, dynamic>> _checkedRowRaps2 = [
+    {'value': '縮み\nshrinkage        ', 'checked': false},
+    {'value': '変色\nfading', 'checked': false},
+    // {'value': 'ボタンなし\nNo buttons', 'checked': false},
+  ];
+  final List<Map<String, dynamic>> _checkedRowRaps3 = [
     {'value': 'ボタンなし\nNo buttons', 'checked': false},
   ];
   final List<Map<String, dynamic>> _checkedMapsb = [
     {'value': '契約外品目・未契約\nItems not contracted/not contracted', 'checked': false},
     {'value': 'ドライ契約のないかたです。\nThis is the one without dry contract.', 'checked': false},
-    {'value': 'バーコード貼り付けできない衣類です\n(ダマール社製品・ポリプロピレン・ポリ塩化ビニル・ペットボトル再生系を含む衣類)\nClothing to which barcodes cannot be attached (Damar products, polypropylene, polyvinyl chloride, and clothing containing recycled plastic bottles)', 'checked': false},
+    {'value': 'バーコード貼り付けできない衣類です\nClothing to which barcodes cannot be attached', 'checked': false},
     {'value': '片足のため\nFor one leg', 'checked': false},
-    {'value': 'ドライ品になります。縮む可能性はありますが、水洗い\n処理をしてもよろしいでしょうか？\nIt will be dry goods. Is it possible to wash it in cold water?', 'checked': false},
+    {'value': 'ドライ品になります。縮む可能性はありますが、水洗い\n処理をしてもよろしいでしょうか？\nIt will be dry goods.\nIs it possible to wash it in cold water?', 'checked': false},
   ];
 
   final TextEditingController _controllerFacilityName = TextEditingController();
@@ -154,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 1),
               ),
               child: Text(
-                '返品連絡票 (バーコード用)\nReturn Contact Form (for barcode)',
+                '返却連絡票 (バーコード用)\nReturn Contact Form (for barcode)',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 35,
@@ -224,8 +235,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   padding: EdgeInsets.only(left: 15, right: 15),
                   width: double.infinity,
+                  // height: 200, // 高さを指定
                   child: Row(
-                    children: _checkedMaps
+                    children: _checkedMaps1
                       .map((q) => Flexible(
                         child: CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.leading,
@@ -252,7 +264,98 @@ class _MyHomePageState extends State<MyHomePage> {
                       right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
                     )
                   ),
-                  padding: EdgeInsets.only(left: screenWidth * 0.10, right: screenWidth * 0.03),
+                  padding: EdgeInsets.only(left: 15, right: 15,),
+                  width: double.infinity,
+                  // height: 200, // 高さを指定
+                  child: Row(
+                    children: _checkedMaps2
+                      .map((q) => Flexible(
+                        child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Text(
+                          q['value'],
+                          style: TextStyle(fontSize: 25),
+                          ),
+                          value: q['checked'],
+                          onChanged: (bool? checkedValue) {
+                          setState(() {
+                            q['checked'] = checkedValue;
+                          });
+                        },
+                      ))
+                      )
+                    .toList()
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                      right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                    )
+                  ),
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  child: Row(
+                    children: _checkedMaps3
+                      .map((q) => Flexible(
+                        child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Text(
+                          q['value'],
+                          style: TextStyle(fontSize: 25),
+                          ),
+                          value: q['checked'],
+                          onChanged: (bool? checkedValue) {
+                          setState(() {
+                            q['checked'] = checkedValue;
+                          });
+                        },
+                      ))
+                      )
+                    .toList()
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                      right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                    )
+                  ),
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  child: Row(
+                    children: _checkedMaps4
+                      .map((q) => Flexible(
+                        child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Text(
+                          q['value'],
+                          style: TextStyle(fontSize: 25),
+                          ),
+                          value: q['checked'],
+                          onChanged: (bool? checkedValue) {
+                          setState(() {
+                            q['checked'] = checkedValue;
+                          });
+                        },
+                      ))
+                      )
+                    .toList()
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                      right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                    )
+                  ),
+                  padding: EdgeInsets.only(left: screenWidth * 0.01, right: screenWidth * 0.01),
                   child: TextFormField(
                     controller: _controllerOther,
                     decoration: InputDecoration(
@@ -321,7 +424,69 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.only(left: 15, right: 15),
                   width: double.infinity,
                   child: Row(
-                    children: _checkedRowRaps
+                    children: _checkedRowRaps1
+                      .map((a) => Flexible(
+                        child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            a['value'],
+                            style: TextStyle(fontSize: 25),
+                          ),
+                          // subtitle: Text(a['checked'] ? 'ON' : 'OFF'),
+                          value: a['checked'],
+                          onChanged: (bool? checkedValue) {
+                            setState(() {
+                              a['checked'] = checkedValue;
+                            });
+                          },
+                        ),
+                      ))
+                      .toList(), // カンマを削除し、リストの生成が正しく終了するようにします。
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                      right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                    )
+                  ),
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  child: Row(
+                    children: _checkedRowRaps2
+                      .map((a) => Flexible(
+                        child: CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            a['value'],
+                            style: TextStyle(fontSize: 25),
+                          ),
+                          // subtitle: Text(a['checked'] ? 'ON' : 'OFF'),
+                          value: a['checked'],
+                          onChanged: (bool? checkedValue) {
+                            setState(() {
+                              a['checked'] = checkedValue;
+                            });
+                          },
+                        ),
+                      ))
+                      .toList(), // カンマを削除し、リストの生成が正しく終了するようにします。
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                      right: BorderSide(color: const Color.fromARGB(255, 0, 0, 0)),
+                    )
+                  ),
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  width: double.infinity,
+                  child: Row(
+                    children: _checkedRowRaps3
                       .map((a) => Flexible(
                         child: CheckboxListTile(
                           controlAffinity: ListTileControlAffinity.leading,
@@ -393,9 +558,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     entrant: _entrant,
                     yourName: _yourName,
                     other: _other,
-                    checkedMaps: _checkedMaps,
+                    checkedMaps1: _checkedMaps1,
+                    checkedMaps2: _checkedMaps2,
+                    checkedMaps3: _checkedMaps3,
+                    checkedMaps4: _checkedMaps4,
                     checkedMapsf: _checkedMapsf,
-                    checkedRowRaps: _checkedRowRaps,
+                    checkedRowRaps1: _checkedRowRaps1,
+                    checkedRowRaps2: _checkedRowRaps2,
+                    checkedRowRaps3: _checkedRowRaps3,
                     checkedMapsb: _checkedMapsb,
                   );
                 },
