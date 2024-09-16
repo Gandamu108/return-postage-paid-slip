@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'excel.dart'; 
 import 'pdf.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -34,9 +34,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late String date; // lateキーワードを使って遅延初期化
-   List<String> title = ['日 付\nDate', '施設名\nFacility Name', 'フロア名\nFloor name', '記入者\nentrant'];
-   final List<Map<String, dynamic>> _checkedMaps1 = [
+  late String date;
+  List<String> title = ['日 付\nDate', '施設名\nFacility Name', 'フロア名\nFloor name', '記入者\nentrant'];
+  List<String> dropdownItems = [];
+  String? selectedValue;
+  final List<Map<String, dynamic>> _checkedMaps1 = [
     {'value': '上衣\njacket                   ', 'checked': false},
     {'value': '下衣\nLower clothing                   ', 'checked': false},
   ];
@@ -51,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Map<String, dynamic>> _checkedMaps4 = [
     {'value': '寝具類\nBedding', 'checked': false},
   ];
-   final List<Map<String, dynamic>> _checkedMapsf = [
+  final List<Map<String, dynamic>> _checkedMapsf = [
     {'value': '名前未記入 衣類に直接フルネームで記入。\nName not written Full name\nwritten directly on clothing', 'checked': false},
     {'value': '名前が読み取れませんでした。\nName could not be read. Please retype it.', 'checked': false},
     {'value': '以下のことが発生しています\n洗ってもよろしいでしょうか？\nMay I wash the following?', 'checked': false},
@@ -63,7 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Map<String, dynamic>> _checkedRowRaps2 = [
     {'value': '縮み\nshrinkage        ', 'checked': false},
     {'value': '変色\nfading', 'checked': false},
-    // {'value': 'ボタンなし\nNo buttons', 'checked': false},
   ];
   final List<Map<String, dynamic>> _checkedRowRaps3 = [
     {'value': 'ボタンなし\nNo buttons', 'checked': false},
@@ -86,28 +87,52 @@ class _MyHomePageState extends State<MyHomePage> {
   String _floorName = '';
   String _entrant = '';
   String _yourName = '';
-  String _other =  '';
+  String _other = '';
+  List<String> _dropdownItems = [];
+  String? _selectedItem;
+  List<String> _allItems = []; // Excelデータ全体のリスト
+  List<String> _filteredItems = []; // フィルタリングされたアイテム
+
+  void _filterItems(String input) {
+    setState(() {
+      _filteredItems = _allItems
+          .where((item) => item.contains(input)) // 入力された文字列を含むアイテムだけを抽出
+        . toList();
+   });
+  }
 
   @override
   void initState() {
     super.initState();
     DateTime now = DateTime.now();
     DateFormat outputFormat = DateFormat('MM/dd');
-    date = outputFormat.format(now); // initState内で日付をフォーマット
+    date = outputFormat.format(now);
+    // Excelデータを読み込む処理
+    // loadExcelData();
   }
 
+  @override
   void dispose() {
-    _controllerFacilityName.dispose(); // メモリリークを防ぐためにdisposeする
+    _controllerFacilityName.dispose();
     _controllerFloorName.dispose();
     _controllerEntrant.dispose();
     super.dispose();
   }
 
-  
+  void _handleItemsLoaded(List<String> items) {
+    setState(() {
+      _dropdownItems = items;
+      // _selectedItem をリストの最初のアイテムに設定する
+      if (items.isNotEmpty) {
+        _selectedItem = items.first;
+      } else {
+        _selectedItem = null;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
 
     final List<Widget> titleWidgets = title.map((text) => Expanded(
@@ -127,27 +152,63 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.center,
               ),
             ),
-          if (text == '施設名\nFacility Name')
-            TextFormField(
-              controller: _controllerFacilityName,
-              decoration: InputDecoration(
-                border: OutlineInputBorder()
-              ),
+         if (text == '施設名\nFacility Name')
+          Container(
+            child: Column(
+              children: [
+                if (_dropdownItems.isNotEmpty)
+                  Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text.isEmpty) {
+                        return const Iterable<String>.empty(); // 空の入力があった場合
+                      }
+                      // 入力文字列と部分一致するアイテムを返す
+                      return _dropdownItems.where((String item) {
+                        return item.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                      });
+                    },
+                    onSelected: (String selectedItem) {
+                      setState(() {
+                        // Autocompleteで選択されたアイテムを変更する
+                        _selectedItem = selectedItem;
+                      });
+                    },
+                    fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: InputDecoration(
+                          hintText: '施設名を入力してください', // ヒントテキスト
+                          border: OutlineInputBorder(),
+                        ),
+                      );
+                    },
+                  ),
+              ],
             ),
+          ),
+
+
           if (text == 'フロア名\nFloor name')
-            TextFormField(
+          Container(
+            child: TextFormField(
               controller: _controllerFloorName,
               decoration: InputDecoration(
                 border: OutlineInputBorder()
               ),
             ),
+          ),
+            
           if (text == '記入者\nentrant')
-            TextFormField(
+          Container(
+            child: TextFormField(
               controller: _controllerEntrant,
               decoration: InputDecoration(
                 border: OutlineInputBorder()
               ),
-            )
+            ),
+          ),
+            
         ],
       ),
     )).toList();
@@ -160,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(top: 10, left: screenWidth * 0.02, right: screenWidth * 0.02, bottom: 0),
-              width: double.infinity, // 画面サイズいっぱいまで広げる
+              width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 1),
               ),
@@ -184,6 +245,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 children: titleWidgets,
               ),
+            ),
+            ExcelDropdown(
+              onItemsLoaded: _handleItemsLoaded,
             ),
             Column(
               children: <Widget>[
@@ -235,7 +299,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   padding: EdgeInsets.only(left: 15, right: 15),
                   width: double.infinity,
-                  // height: 200, // 高さを指定
                   child: Row(
                     children: _checkedMaps1
                       .map((q) => Flexible(
@@ -266,7 +329,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   padding: EdgeInsets.only(left: 15, right: 15,),
                   width: double.infinity,
-                  // height: 200, // 高さを指定
                   child: Row(
                     children: _checkedMaps2
                       .map((q) => Flexible(
@@ -402,7 +464,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           e['value'],
                           style: TextStyle(fontSize: 25),
                         ),
-                        // subtitle: Text(e['checked'] ? "ON" : "OFF"),
                         value: e['checked'],
                         onChanged: (bool? checkedValue) {
                           setState(() {
@@ -432,7 +493,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             a['value'],
                             style: TextStyle(fontSize: 25),
                           ),
-                          // subtitle: Text(a['checked'] ? 'ON' : 'OFF'),
                           value: a['checked'],
                           onChanged: (bool? checkedValue) {
                             setState(() {
@@ -441,7 +501,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                         ),
                       ))
-                      .toList(), // カンマを削除し、リストの生成が正しく終了するようにします。
+                      .toList(),
                   ),
                 ),
                 Container(
@@ -463,7 +523,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             a['value'],
                             style: TextStyle(fontSize: 25),
                           ),
-                          // subtitle: Text(a['checked'] ? 'ON' : 'OFF'),
                           value: a['checked'],
                           onChanged: (bool? checkedValue) {
                             setState(() {
@@ -472,7 +531,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                         ),
                       ))
-                      .toList(), // カンマを削除し、リストの生成が正しく終了するようにします。
+                      .toList(),
                   ),
                 ),
                 Container(
@@ -494,7 +553,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             a['value'],
                             style: TextStyle(fontSize: 25),
                           ),
-                          // subtitle: Text(a['checked'] ? 'ON' : 'OFF'),
                           value: a['checked'],
                           onChanged: (bool? checkedValue) {
                             setState(() {
@@ -503,7 +561,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                         ),
                       ))
-                      .toList(), // カンマを削除し、リストの生成が正しく終了するようにします。
+                      .toList(),
                   ),
                 ),
                 Container(
@@ -524,7 +582,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           b['value'],
                           style: TextStyle(fontSize: 25),
                         ),
-                        // subtitle: Text(b['checked'] ? 'ON': 'OFF'),
                         value: b['checked'],
                         onChanged: (bool? checkedValue) {
                           setState(() {
@@ -585,7 +642,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildTextWithBorderText(BuildContext context, String text) {
-    double screenWidth = MediaQuery.of(context).size.width; // contextを使用して画面の幅を取得
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.all(screenWidth * 0.003),
@@ -603,11 +660,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveData() async {
-    _facilityName = _controllerFacilityName.text;
+    // _selectedItem が null でない場合はその値を使用し、null の場合はデフォルト値を使用する
+    String facilityName = _selectedItem ?? '未選択'; 
+    _facilityName = facilityName;
     _floorName = _controllerFloorName.text;
     _entrant =  _controllerEntrant.text;
     _yourName = _controllerYourName.text;
     _other = _controllerOther.text;
+
+    
+    // print('施設名: $_facilityName\nフロア名: $_floorName\n記入者: $_entrant\nお名前: $_yourName\nその他: $_other');
     print('施設名: $_facilityName\nフロア名: $_floorName\n記入者: $_entrant\nお名前: $_yourName\nその他: $_other');
   }
 }
