@@ -1,20 +1,63 @@
-<<<<<<< HEAD
-# gulife-return-postage-paid-slip
-=======
-# returned_goods_list
+# 返品連絡表アプリ  
+Flutter製｜スマホ・Web対応｜PDF自動生成
 
-A new Flutter project.
+## 概要
 
-## Getting Started
+このアプリは、紙で行われていた**返品連絡のやりとり**を  
+“誰でも、すぐに、ミスなく”行えるようにするために開発しました。
 
-This project is a starting point for a Flutter application.
+親族の経営するクリーニング工場では、  
+返品時の記録を紙に書いており、次のような問題が起きていました：
 
-A few resources to get you started if this is your first Flutter project:
+- 手書きのミスや読み取りづらさ  
+- 紛失のリスク  
+- 保管・共有の手間  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+このアプリは、それらの問題を一つ一つ解消するために設計されています。  
+**「紙の手間を、スマホで一瞬に」—— それがこのアプリのテーマです。**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
->>>>>>> a7dbae3 (Initial commit)
+
+
+## 主な機能
+
+- 顧客情報と返品内容の入力  
+- PDFに自動で書き込み、整形  
+- 印刷機能との連携  
+- スマホ・PC両対応（Webサポート）
+
+---
+
+
+## セットアップ手順
+
+1. このリポジトリをクローン  
+   `git clone https://github.com/yourname/returns_form_app.git`
+
+2. パッケージを取得  
+   `flutter pub get`
+
+3. アプリを起動  
+   `flutter run`
+
+※ FirebaseやPDFテンプレートの設定が必要な場合は、別途README内に記載予定
+
+---
+
+
+
+## 今後の展望
+
+- アプリの軽量化と動作高速化  
+- 多言語対応（外国人スタッフ向け）  
+- UIのアクセシビリティ改善（視認性、読み上げなど）
+
+このアプリは、小さな工場から始まった。  
+だが、**「どの現場でも使える、簡単なデジタル連絡表」**として、  
+さらに育てていくつもりだ。
+
+---
+
+
+## 制作担当
+
+- 企画 / 設計 / UIデザイン / 実装 / テスト：自分
