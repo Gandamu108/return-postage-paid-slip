@@ -1,63 +1,64 @@
-# 返品連絡表アプリ  
-Flutter製｜スマホ・Web対応｜PDF自動生成
+## Returns contact list app 
+Made by Flutter｜Smartphone and web support｜Automatic PDF generation
 
-## 概要
+## Overview
 
-このアプリは、紙で行われていた**返品連絡のやりとり**を  
-“誰でも、すぐに、ミスなく”行えるようにするために開発しました。
+This app was developed to make the paper-based **Returns Communication** process 
+“quick, easy, and error-free” for anyone.
 
-親族の経営するクリーニング工場では、  
-返品時の記録を紙に書いており、次のような問題が起きていました：
+At a cleaning factory run by a family member, 
+records of returns were written on paper, causing the following problems:
 
-- 手書きのミスや読み取りづらさ  
-- 紛失のリスク  
-- 保管・共有の手間  
+- Mistakes and difficulty in reading handwritten records  
+- Risk of loss  
+- Time-consuming storage and sharing  
 
-このアプリは、それらの問題を一つ一つ解消するために設計されています。  
-**「紙の手間を、スマホで一瞬に」—— それがこのアプリのテーマです。**
-
-
-
-## 主な機能
-
-- 顧客情報と返品内容の入力  
-- PDFに自動で書き込み、整形  
-- 印刷機能との連携  
-- スマホ・PC両対応（Webサポート）
-
----
-
-
-## セットアップ手順
-
-1. このリポジトリをクローン  
-   `git clone https://github.com/yourname/returns_form_app.git`
-
-2. パッケージを取得  
-   `flutter pub get`
-
-3. アプリを起動  
-   `flutter run`
-
-※ FirebaseやPDFテンプレートの設定が必要な場合は、別途README内に記載予定
-
----
+This app is designed to solve those problems one by one.  
+**“Paper hassle, smartphone hassle in an instant” - that is the theme of this app. **
 
 
 
-## 今後の展望
+## Main functions
 
-- アプリの軽量化と動作高速化  
-- 多言語対応（外国人スタッフ向け）  
-- UIのアクセシビリティ改善（視認性、読み上げなど）
+- Input customer information and return details  
+- Automatic writing and formatting to PDF  
+- Linkage with printing function  
+- Support for both smartphones and PCs (web support)
 
-このアプリは、小さな工場から始まった。  
-だが、**「どの現場でも使える、簡単なデジタル連絡表」**として、  
-さらに育てていくつもりだ。
+--- ## Setup procedure ## Setup procedure
+
+
+## Setup Instructions
+
+1. clone this repository 
+ `git clone https://github.com/yourname/returns_form_app.git` 2.
+
+2. get the package 
+ `flutter pub get` 3.
+
+3. run the app 
+ `flutter run`
+
+If you need to configure Firebase or PDF templates, this will be described separately in the README.
 
 ---
 
 
-## 制作担当
 
-- 企画 / 設計 / UIデザイン / 実装 / テスト：自分
+## Future Prospects
+
+- Lighten the weight of the app and make it run faster  
+- Multilingual support (for foreign staff)  
+- UI accessibility improvements (visibility, reading out loud, etc.)
+
+This app started in a small factory.  
+But we intend to further develop it as **“a simple digital contact list that can be used at any site.”
+
+--- ## Producers
+
+
+## Production
+
+- Planning / Design / UI design / Implementation / Testing: Myself
+
+Translated with DeepL.com (free version)
